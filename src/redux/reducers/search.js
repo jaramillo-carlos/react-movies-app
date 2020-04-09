@@ -1,3 +1,4 @@
+import { get } from 'lodash'; // to be more easy get a value
 import { 
   SEARCH_MOVIE_START, 
   SEARCH_MOVIE_ERROR, 
