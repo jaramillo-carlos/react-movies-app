@@ -2,21 +2,22 @@ import React, { useState } from 'react'
 import { Container, Typography, Card, Grid, TextField, Button } from '@material-ui/core'
 import styles from './styles';
 import { MovieIcon } from '../../icons'
-export default () => {
+
+export default ({history}) => {
   const [searchText, setSearchText] = useState('');
   const classes = styles();
   // declare functions in this form dont have Hoisting
   // declarative function
   const handleSearchTextChange = event => {
-    setSearchText(event.target.value);
+    setSearchText(event.target.value)
   }
 
   const handleCleanTextClick = event => {
-
+    setSearchText('')
   }
 
   const handleSearchTextClick = event => {
-    
+    history.push(`/results?movieName=${searchText}`)
   }
 
   return (
