@@ -7,7 +7,7 @@ import {
 
 export function* searchMovie({payload}) {
   try {
-
+    console.log('start saga', payload)
   } catch (error) {
 
   }
