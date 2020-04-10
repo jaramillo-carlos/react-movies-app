@@ -70,6 +70,15 @@ useEffect(() => {
 })
 ```
 
+## useCallback
+Will get a function (function to listen) in first param and array (values to listen) on second. Is used for memoizing.
+Because en react in each render or state update, will go recalcule or create again, each function.
+```javascript
+// Only will go re-created this function when counter change
+const handleIncrementClick = useCallback(() => setCount(counter + 1), [counter])
+```
+Memoizing is good, but dont be used in each function because this use resources too. Only be used in functions with big use of resources.
+
 # React-Redux
 Is library for connect components from react with redux, in the past using the `HoC Connect` since 7.0.1 (June 2019) dont need use the `HoC Connect` to connect with store, was be remplaced with a hooks `useDispatch` and `useSelector`.
 
