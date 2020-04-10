@@ -1,68 +1,90 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### Currently Flow
+1. Initial Data - Realtime Updates - User Input
+-- All go to:
+2. Dispatcher
+-- This go to:
+3. Store
+-- This go to:
+4. View
+-- This return to User Input.
 
-## Available Scripts
+Every time you will go this loop, in React you will destroy View and render again.
 
-In the project directory, you can run:
+Declarative Components (Components)
+No explicit data binding
 
-### `yarn start`
+### Virtual DOM
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Copy of real DOM, to refresh only updated and childrens. to add Performance
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+- npm run eject (divide Create React App)
 
-### `yarn test`
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# Hooks (React16.8)
+To add state to functional components, was maded to build a more reusable components, more easy to read, reuse business logic in custom hooks, and not in component life cycle, and evit confusion on this inside class components.
 
-### `yarn build`
+React-Redux (7.1.0): useSelector / useDispatch
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## useState (this.state in ClassComponents)
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+State return array with two elements, first is value [0] of our state, and the decond [1] is da function to update the state
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```javascript
+const something = useState('');
+// vs
+this.state = { something: ''};
 
-### `yarn eject`
+// lazy declaration
+const messageState = useState(() => expensiveComputation());
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```javascript
+const something = useState('');
+const somethingValue = something[0] // Contains ''
+const setMessage = something[1] // function
+// using destructuring
+const [something, setSomething] = useState('');
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## useEffect
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Used to call secondary effects in functional components, like componentDidMount, componentDidUpdate or componentWillUnmount mergeds. When use this hook, component will do something after render.
+Transmissions, request, listen changes, transmission events.
+The first argument is a functión that will be executed when component didmount, dismount or didupdate.
+the second argument is a array, when can specificy that properties should change, to react call again this functión.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+That functión could return other function executed when component is dismounted
+```javascript
+// this code can't be compressed
+componentDidMount() {
+  document.title = `You clicked ${this.state.count} times`
+}
+componentDidUpdate() {
+  document.title = `You clicked ${this.state.count} times`
+}
+// replaced with
+// one of adventages of this is when you bundle for production
+// this code can be compresed
+useEffect(() => {
+  document.title = `You clicked ${count} times`
+})
+```
 
-## Learn More
+# React-Redux
+Is library for connect components from react with redux, in the past using the `HoC Connect` since 7.0.1 (June 2019) dont need use the `HoC Connect` to connect with store, was be remplaced with a hooks `useDispatch` and `useSelector`.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## useSelector
+Used to get the state from redux store, is like mapStateToProps.
+- When action has ben dispatched by Dispatch `useDispatch`, useSelector compare previous value and next value, and when is differente force component to be render again.
+- When you use memoizing, need be cautious, because `reselect` or `createselector` have a internal self-state.
+- useSelector use `===` to compare if be render again or no.
 
-### Code Splitting
+## useDispatch
+Is like dispatch from redux store. Is used to dispatch actions from store. 
+```javascript
+const dispatch = useDispatch()
+```
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+Usually dispatch actions to be listened by SAGA.
+And later through reducer, will get the information.
