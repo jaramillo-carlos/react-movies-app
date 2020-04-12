@@ -35,6 +35,9 @@ Component
 ## Store
 Save all info in object form
 
+## State
+Global state of store
+
 ## Actions
 ### Action
 Is a play object with type and payload
@@ -163,6 +166,28 @@ export default function* rootSaga() {
 // and append rootSaga in middlewareConfig
 ```
 
+## React.Memo() ( React.PureComponent in classComponents)
+This have inside a shouldComponentUpdate
+```javascript
+import React from 'react';
+
+const functionalComponent = ({title, description}) => {
+  console.log(title, description);
+  return (
+    <div>
+      <p>
+        {title}
+        {description}
+      </p>
+    </div>
+  )
+}
+// React.memo() will validate if they should re-render or not. Only if change current props.
+// So the parent will re-render, this would not
+export default React.memo(FunctionalComponent)
+```
+
+
 # Hooks (React16.8)
 To add state to functional components, was maded to build a more reusable components, more easy to read, reuse business logic in custom hooks, and not in component life cycle, and evit confusion on this inside class components.
 
@@ -220,6 +245,7 @@ Because en react in each render or state update, will go recalcule or create aga
 // Only will go re-created this function when counter change
 const handleIncrementClick = useCallback(() => setCount(counter + 1), [counter])
 ```
+
 Memoizing is good, but dont be used in each function because this use resources too. Only be used in functions with big use of resources.
 
 # React-Redux
